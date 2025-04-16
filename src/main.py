@@ -17,8 +17,18 @@ def generate_docs():
         print(f"✅ Documentation générée pour {file} dans {output_dir}/")
     print('--- Terminé ---')
 
+def ask_for_number_of_points(default=10):
+    try:
+        value = input(f"Combien de points veux-tu générer ? (par défaut: {default}) : ")
+        return int(value) if value.strip() != "" else default
+    except ValueError:
+        print("Entrée invalide. Utilisation de la valeur par défaut.")
+        return default
+
 def launch_project():
-    problem = Problem(10)
+    n = ask_for_number_of_points()
+
+    problem = Problem(n)
     print("Liste des points générés :", problem.S)
     print("Distance entre le point 1 et 2 :", problem.distance(1, 2))
     print("Vecteur de solution initial :", problem.res)
