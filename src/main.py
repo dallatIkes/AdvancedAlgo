@@ -1,5 +1,6 @@
 import subprocess
 import os
+import argparse
 
 from abstract import Problem
 from cli import Cli
@@ -10,25 +11,40 @@ def generate_docs():
 
     os.makedirs(output_dir, exist_ok=True)
 
-    # Generate docs for everything in the src/ directory
-    print('---')
+    print('--- Génération de la documentation ---')
     for file in sources_files:
-        subprocess.run(["python3", "-m", "pdoc", file, "-o", output_dir], check=True) 
-        print(f"✅ {file} docs generated in {output_dir}/")
-    print('---')
+        subprocess.run(["python3", "-m", "pdoc", file, "-o", output_dir], check=True)
+        print(f"✅ Documentation générée pour {file} dans {output_dir}/")
+    print('--- Terminé ---')
 
-def main():
-    # generate_docs()
-    # subprocess.run(["firefox", "docs/index.html"]) 
-
+def launch_project():
     problem = Problem(10)
-    print(problem.S)
-    print(problem.distance(1, 2))
-    print(problem.res)
-    print(problem.SD)
+    print("Liste des points générés :", problem.S)
+    print("Distance entre le point 1 et 2 :", problem.distance(1, 2))
+    print("Vecteur de solution initial :", problem.res)
+    print("Distance totale (SD) :", problem.SD)
 
     cli = Cli(problem.S, problem.res)
 
+def main():
+    parser = argparse.ArgumentParser(description="Projet Algo Avancée - CLI Tool")
+    parser.add_argument(
+        "--docs", action="store_true",
+        help="Génère la documentation du projet (pdoc)"
+    )
+    parser.add_argument(
+        "--run", action="store_true",
+        help="Lance l'exécution principale du projet"
+    )
 
-if __name__ == '__main__':
+    args = parser.parse_args()
+
+    if args.docs:
+        generate_docs()
+    elif args.run:
+        launch_project()
+    else:
+        parser.print_help()
+
+if __name__ == "__main__":
     main()
