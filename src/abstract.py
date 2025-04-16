@@ -16,21 +16,21 @@ class Problem:
         self.optScore : float   # current optimal score.
         self.min: int           # minimum ordinate value.
         self.max: int           # maximum ordinate value.
-        self.S: list[int]       # list of all the points ordinate values.
         self.res: list[bool]    # solution vector : True means we take the point.
+        self.S: list[int]       # list of all the points ordinate values.
 
         self.n = n
+
+        self.min = 1
+        self.max = 5
+        self.S = [random.randint(self.min, self.max) for _ in range(self.n)]
+        self.res = (n-2)*[0]
 
         self.SD = self.calcSD()
         self.m = 1
         self.C = 1.5
         self.score = self.calcScore()
         self.optScore = self.score
-
-        self.min = 1
-        self.max = 5
-        self.S = [random.randint(self.min, self.max) for _ in range(self.n)]
-        self.res = (n-2)*[0]
 
     def distance(self, i: int, j: int) -> float:
         """Returns the euclidian distance between the points i and j.
