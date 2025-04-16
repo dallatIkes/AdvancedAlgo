@@ -25,6 +25,8 @@ class Problem:
         self.max = 5
         self.S = [random.randint(self.min, self.max) for _ in range(self.n)]
         self.res = (n-2)*[0]
+        self.res[2] = 1
+        self.res[6] = 1
 
         self.SD = self.calcSD()
         self.m = 1

@@ -2,6 +2,7 @@ import subprocess
 import os
 
 from abstract import Problem
+from cli import Cli
 
 def generate_docs():
     sources_files = ["src/cli.py", "src/abstract.py"]
@@ -17,14 +18,16 @@ def generate_docs():
     print('---')
 
 def main():
-    generate_docs()
-    subprocess.run(["firefox", "docs/index.html"]) 
+    # generate_docs()
+    # subprocess.run(["firefox", "docs/index.html"]) 
 
     problem = Problem(10)
     print(problem.S)
     print(problem.distance(1, 2))
     print(problem.res)
     print(problem.SD)
+
+    cli = Cli(problem.S, problem.res)
 
 
 if __name__ == '__main__':
