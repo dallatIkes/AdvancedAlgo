@@ -28,13 +28,14 @@ def ask_for_number_of_points(default=20):
 def launch_project():
     n = ask_for_number_of_points()
 
-    problem = Problem(n)
-    print("Liste des points générés :", problem.S)
-    print("Distance entre le point 1 et 2 :", problem.distance(1, 2))
-    print("Vecteur de solution initial :", problem.res)
-    print("Distance totale (SD) :", problem.SD)
+    pb = Problem(n)
+    print("Liste des points générés :", pb.S)
+    print("Distance entre le point 1 et 2 :", pb.distance(1, 3))
+    print("Vecteur de solution initial :", pb.res)
+    print("Distance totale (SD) :", pb.SD)
+    print(pb.distance(2, 5))
 
-    cli = Cli(problem.S, problem.res)
+    Cli(pb.S, pb.res)
 
 def main():
     parser = argparse.ArgumentParser(description="Projet Algo Avancée - CLI Tool")

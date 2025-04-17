@@ -48,7 +48,14 @@ class Problem:
         Returns:
             float: sum of the distances.
         """
-        pass
+        sum = 0
+        A = [i, self.S[i-1]]
+        B = [j, self.S[j-1]]
+        for k in range(i, j):
+            point = [k, self.S[k-1]]
+            H = orth_projection(point, A, B)
+            sum += euclidian_distance(point, H)
+        return sum
     
     def calcSD(self) -> float:
         """Returns the calculated sum of the euclidian distances between the taken points.
