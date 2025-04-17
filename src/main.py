@@ -6,7 +6,7 @@ from abstract import Problem
 from cli import Cli
 
 def generate_docs():
-    sources_files = ["src/cli.py", "src/abstract.py"]
+    sources_files = ["src/geometry.py", "src/cli.py", "src/abstract.py"]
     output_dir = "docs"
 
     os.makedirs(output_dir, exist_ok=True)
