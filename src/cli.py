@@ -1,5 +1,5 @@
 class Cli():
-    def __init__(self, points, taken, scale_x=15, height=30):
+    def __init__(self, points, taken, scale_x=7, height=30):
         """
         Affiche un graphe ASCII en console représentant une suite de points et
         une ligne brisée reliant certains de ces points.

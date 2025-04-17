@@ -17,7 +17,7 @@ def generate_docs():
         print(f"✅ Documentation générée pour {file} dans {output_dir}/")
     print('--- Terminé ---')
 
-def ask_for_number_of_points(default=10):
+def ask_for_number_of_points(default=20):
     try:
         value = input(f"Combien de points veux-tu générer ? (par défaut: {default}) : ")
         return int(value) if value.strip() != "" else default

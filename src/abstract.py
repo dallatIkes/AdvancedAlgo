@@ -24,15 +24,18 @@ class Problem:
         self.min = 1
         self.max = 5
         self.S = [random.randint(self.min, self.max) for _ in range(self.n)]
-        self.res = (n-2)*[0]
-        self.res[2] = 1
-        self.res[6] = 1
+        self.res = (n-2)*[False]
 
         self.SD = self.calcSD()
         self.m = 1
         self.C = 1.5
         self.score = self.calcScore()
         self.optScore = self.score
+        
+        # We start with a particular configuration to optimze seach time
+        for i in range(n-2):
+            if i%2 == 1:
+                self.enregistrer(i, True)
 
     def distance(self, i: int, j: int) -> float:
         """Returns the euclidian distance between the points i and j.
