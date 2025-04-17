@@ -1,5 +1,6 @@
 import random
-from math import sqrt
+
+from geometry import *
 
 class Problem:
     def __init__(self, n: int):
@@ -35,25 +36,19 @@ class Problem:
         # We start with a particular configuration to optimze seach time
         for i in range(n-2):
             if i%2 == 1:
-                self.enregistrer(i, True)
+                self.enregistrer(i, True)    
 
     def distance(self, i: int, j: int) -> float:
-        """Returns the euclidian distance between the points i and j.
+        """Returns the sum of the distances of points from i to j to the [i,j] segment.
 
         Args:
-            i (int): abscissa of the first point. 
-            j (int): abscissa of the second point.
+            i (int): first extremity of the segment.
+            j (int): second extremity of the segment.
 
         Returns:
-            float: euclidian distance between the two points.
+            float: sum of the distances.
         """
-        # coordinates of the first point
-        x1 = i
-        y1 = self.S[i-1]
-        # coordinates of the second point
-        x2 = j
-        y2 = self.S[j-1]
-        return sqrt(abs(y2-y1)**2+abs(x2-x1)**2)
+        pass
     
     def calcSD(self) -> float:
         """Returns the calculated sum of the euclidian distances between the taken points.
