@@ -36,7 +36,9 @@ class Problem:
         # We start with a particular configuration to optimze seach time
         for i in range(n-2):
             if i%2 == 1:
-                self.enregistrer(i, True)    
+                self.enregistrer(i, True)  
+
+        self.SD = self.calcSD()  
 
     def distance(self, i: int, j: int) -> float:
         """Returns the sum of the distances of points from i to j to the [i,j] segment.
@@ -58,7 +60,7 @@ class Problem:
         return sum
     
     def calcSD(self) -> float:
-        """Returns the calculated sum of the euclidian distances between the taken points.
+        """Returns the calculated sum of the euclidian distances between the taken points and the segments.
 
         Returns:
             float: calculated SD value.

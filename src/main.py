@@ -33,7 +33,6 @@ def launch_project():
     print("Distance entre le point 1 et 2 :", pb.distance(1, 3))
     print("Vecteur de solution initial :", pb.res)
     print("Distance totale (SD) :", pb.SD)
-    print(pb.distance(2, 5))
 
     Cli(pb.S, pb.res)
 
