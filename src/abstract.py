@@ -84,7 +84,7 @@ class Problem:
         # score = SD + m * C
         return self.SD+self.m*self.C
 
-    def satisfaisant(xi: int) -> bool:
+    def satisfaisant(self, xi: int) -> bool:
         """This method returns True if the current vector is an accepted solution to the problem.
         Here it always returns True because every vector is a possible solution since the first and last point are always taken.
 
