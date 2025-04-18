@@ -16,7 +16,7 @@ def euclidian_distance(a: list[float], b: list[float]) -> float:
         # coordinates of the second point
         x2 = b[0]
         y2 = b[1]
-        return sqrt(abs(y2-y1)**2+abs(x2-x1)**2)
+        return sqrt((y2-y1)**2+(x2-x1)**2)
 
 def orth_projection(c: list[float], a: list[float], b: list[float]) -> list[float]:
         """Returns the coordinates of the orthographic projection of the point x on the [a,b] segment.

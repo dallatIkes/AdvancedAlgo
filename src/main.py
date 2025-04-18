@@ -5,6 +5,9 @@ import argparse
 from abstract import Problem
 from cli import Cli
 
+best_score = float('inf')
+best_solution = []
+
 def generate_docs():
     sources_files = ["src/geometry.py", "src/cli.py", "src/abstract.py"]
     output_dir = "docs"
@@ -24,17 +27,28 @@ def ask_for_number_of_points(default=20):
     except ValueError:
         print("Entrée invalide. Utilisation de la valeur par défaut.")
         return default
+    
+def print_results(pb: Problem) -> None:
+    """Simple function that displays a search result.
+
+    Args:
+        pb (Problem): the problem we're searching.
+    """
+    print('┌─── RÉSULTAT ────────────────────────────────────────────────────────────────────')
+    print("│ ✅ Meilleure solution trouvée :", pb.optRes)
+    print("│ Score optimal :", pb.optScore)
+    print('└─────────────────────────────────────────────────────────────────────────────────')
 
 def launch_project():
     n = ask_for_number_of_points()
 
     pb = Problem(n)
     print("Liste des points générés :", pb.S)
-    print("Distance entre le point 1 et 2 :", pb.distance(1, 3))
     print("Vecteur de solution initial :", pb.res)
-    print("Distance totale (SD) :", pb.SD)
+    pb.solopt(0)
+    print_results(pb)
 
-    Cli(pb.S, pb.res)
+    Cli(pb.S, pb.optRes)
 
 def main():
     parser = argparse.ArgumentParser(description="Projet Algo Avancée - CLI Tool")
