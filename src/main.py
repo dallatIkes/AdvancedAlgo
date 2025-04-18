@@ -31,10 +31,17 @@ def launch_project():
     pb = Problem(n)
     print("Liste des points générés :", pb.S)
     print("Distance entre le point 1 et 2 :", pb.distance(1, 3))
-    print("Vecteur de solution initial :", pb.res)
+    print("Vecteur solution initial :", pb.res)
     print("Distance totale (SD) :", pb.SD)
 
-    Cli(pb.S, pb.res)
+    Cli(pb.S, pb.finalres)
+    
+    print("Recherche de solution optimale par essais successifs...")
+    pb.solOpt(0)
+    
+    print("Vecteur solution optimal :", pb.finalres)
+    
+    Cli(pb.S, pb.finalres)
 
 def main():
     parser = argparse.ArgumentParser(description="Projet Algo Avancée - CLI Tool")

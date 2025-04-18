@@ -32,7 +32,7 @@
         soltrouvee = True
     ```
 - **optimal :** le coût $= (SD+mC)$ est minimale
-- **optencorepossible :** faut-il poursuivre les appels récurssifs dans cette branche ?
+- **optencorepossible :** faut-il poursuivre les appels récursifs dans cette branche ?
     ```python
     if (SD+d(i-1, i)+d(i, i+1)-d(i-1, i+1)+(m+1)C) >= currentOpt:
         optEncorePossible = False

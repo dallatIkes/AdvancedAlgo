@@ -17,13 +17,14 @@ class Problem:
         self.optScore : float   # current optimal score.
         self.min: int           # minimum ordinate value.
         self.max: int           # maximum ordinate value.
-        self.res: list[bool]    # solution vector : True means we take the point.
+        self.res: list[bool]    # temporary solution vector : True means we take the point.
+        self.finalres: list[bool] # final solution vector
         self.S: list[int]       # list of all the points ordinate values.
 
         self.n = n
 
         self.min = 1
-        self.max = 5
+        self.max = 10
         self.S = [random.randint(self.min, self.max) for _ in range(self.n)]
         self.res = (n-2)*[False]
 
@@ -32,14 +33,16 @@ class Problem:
         self.C = 1.5
         self.score = self.calcScore()
         self.optScore = self.score
+        self.finalres = self.res
         
+        """
         # We start with a particular configuration to optimze seach time
         for i in range(n-2):
             if i%2 == 1:
                 self.enregistrer(i, True)  
 
         self.SD = self.calcSD()  
-
+        """
     def distance(self, i: int, j: int) -> float:
         """Returns the sum of the distances of points from i to j to the [i,j] segment.
 
@@ -96,7 +99,7 @@ class Problem:
         """
         return True
 
-    def enregistrer(self, xi: int, val: bool) -> None:
+    def enregistrer(self, i: int, val: bool) -> None:
         """This method changes the state of the xi-th point : taken or not.
 
         Args:
@@ -104,16 +107,16 @@ class Problem:
             val (bool): is the xi-th point taken ?
         """
         # if the state of the point doesn't change, we do nothing
-        if self.res[xi] != val:
+        if self.res[i] != val:
             # if the point is taken, we increment the number of segments
             if val:
                 self.m += 1
             # if the point is not taken, we decrement the number of segments
             else:
                 self.m -= 1
-            self.res[xi] = val 
+            self.res[i] = val 
 
-    def soltrouvee(self, xi: int) -> bool:
+    def soltrouvee(self, i: int) -> bool:
         """This method returns True when we're done looking for a solution.
 
         Args:
@@ -122,7 +125,7 @@ class Problem:
         Returns:
             bool: is the current point is the last one ? if so, we're done.
         """
-        return xi == self.n-2
+        return i == len(self.res) - 1
     
     def optEncorePossible(self) -> bool:
         """This method returns True if we should continue exploring this branch.
@@ -132,10 +135,29 @@ class Problem:
         """
         return self.score <= self.optScore
     
-    def défaire(self, xi: int) -> None:
+    def defaire(self, i: int) -> None:
         """This method leaves the xi-th point (normally taken).
 
         Args:
             xi (int): index of the point.
         """
-        self.enregistrer(xi, False)
+        self.enregistrer(i, False)
+        
+    def solOpt(self, i: int):
+        """This method returns the optimal solution.
+
+        Args:
+            i (int): index of the point.
+        """
+        for xi in [True, False]:
+            self.enregistrer(i, xi)
+            if self.soltrouvee(i):
+                self.SD = self.calcSD()
+                self.score = self.calcScore()
+                if self.score < self.optScore:
+                    self.finalres[i] = self.res[i]
+                    self.optScore = self.score
+            else:
+                if self.optEncorePossible():
+                    self.solOpt(i + 1)
+            self.defaire(i)
