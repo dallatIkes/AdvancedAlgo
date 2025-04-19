@@ -166,3 +166,48 @@ class Problem:
             if self.optEncorePossible():  # Only continue if a better solution is possible
                 self.solopt(i + 1)  # Explore further by going to the next point
             self.défaire(i)  # Backtrack: undo the change and explore other possibilities
+
+    '''
+    Fonctions propres à la programmation dynamique.
+    '''
+    def calcSD_progDyn(self, start, end) -> float:
+        """Returns the calculated sum of the Euclidean distances between the taken points and the segments.
+
+        Returns:
+            float: calculated SD value.
+        """
+        return self.distance(start, end)
+    
+    # TODO : Correct this function that doesn't work
+    def solSearch_progDyn(self):
+        """
+        Dynamic programming method to find the optimal solution.
+        """
+        # Initialize the arrays
+        approx_opt = [float('inf')] * (self.n)
+        next = [None] * (self.n)
+        
+        approx_opt[self.n - 1] = 0 # Initial case : approx_opt(n, n) = 0
+        print("approx_opt = ", approx_opt)
+        
+        # Dynamic filling
+        for i in range(self.n - 2, 0, -1):
+            print("i = ", i)
+            for j in range(i + 1, self.n):
+                print("j = ", j)
+                cost = self.distance(j, i) + self.C + approx_opt[j]
+                print("cost = ", cost)
+                if cost < approx_opt[i]:
+                    print("next update")
+                    approx_opt[i] = cost
+                    next[i] = j
+                    
+        # Backtracking to find the optimal solution
+        solution = [1]
+        i = self.n
+        print(next)
+        while i > 1:
+            i = next[i]
+            solution.append(next[i])
+        
+        return solution

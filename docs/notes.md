@@ -60,3 +60,28 @@ Complexité exponentielle (au pire cas : $O(2^n)$)
 
 Il est plus intéressant de commencer avec une valeur optimale temporaire et choisir arbitrairement la moitié des points semble intuitivement être une bonne idée. 
 
+## Programmation dynamique
+### Question 1
+Cas de base : $\forall i \in \{1, ..., n\}, approx-opt(i, i) = 0$  
+Cas général : $approx-opt(i, n) = \min\limits_{j = i+1}^{n} (SD_{i, j} + C + approx-opt(j, n))$ avec m relié à 1.
+
+### Question 2
+#### Structure tabulaire
+On va dans un premier temps ranger les distances $SD_{i,j}$ dans un tableau à 2 dimensions tel que ```SD[i, j]``` = $SD_{i,j}$. Ainsi, l'accès aux distances au cours du traitement pourra s'effectuer en temps constant sans avoir à constamment recalculer toutes les distances.
+
+On va également utiliser une liste ```approx-opt``` à 1 dimension tel que :  
+```approx-opt[i]``` = $approx-opt(i, n)$.
+
+Afin de reconsituter le chemin optimal, on utilise une liste auxiliaire ```next``` tel que ```next[i]``` contient l'indice du point inférieur à i relié à i (initialisé à ```(n - 1) * [None]```)
+#### Stratégie de remplissage
+On remplit notre tableau ```approx-opt``` de manière descendante :
+```
+pour i allant de n-1 à 1 faire:
+    approx-opt[i] <- +∞
+    pour j = i+1 à n faire:
+        cost <- SD(i, j) + C + approx-opt[j]
+        si cost < approx-opt[i] alors:
+            approx-opt[i] <- cost
+            next[i] <- j
+```
+
