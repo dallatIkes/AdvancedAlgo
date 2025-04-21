@@ -188,26 +188,26 @@ class Problem:
         next = [None] * (self.n)
         
         approx_opt[self.n - 1] = 0 # Initial case : approx_opt(n, n) = 0
-        print("approx_opt = ", approx_opt)
         
         # Dynamic filling
-        for i in range(self.n - 2, 0, -1):
-            print("i = ", i)
-            for j in range(i + 1, self.n):
-                print("j = ", j)
-                cost = self.distance(j, i) + self.C + approx_opt[j]
-                print("cost = ", cost)
-                if cost < approx_opt[i]:
-                    print("next update")
+        for i in range(len(approx_opt) - 2, 0, -1):
+            for j in range(i + 1, len(approx_opt)):
+                # Calculate the cost of the segment from i to j
+                cost = self.calcSD_progDyn(i, j) + self.C + approx_opt[j]
+                # Check if this is better than the current best
+                if approx_opt[i] > cost:
                     approx_opt[i] = cost
                     next[i] = j
                     
         # Backtracking to find the optimal solution
         solution = [1]
-        i = self.n
-        print(next)
-        while i > 1:
+        i = 1
+        while next[i] is not None:
             i = next[i]
             solution.append(next[i])
-        
+        print(solution)
+        # Now that we have our solution, we can update the optRes vector.
+        for node in range(1, len(solution) - 2) :
+            print(solution[node])
+            self.optRes[solution[node] - 1] = True
         return solution
