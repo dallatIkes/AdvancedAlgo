@@ -166,3 +166,48 @@ class Problem:
             if self.optEncorePossible():  # Only continue if a better solution is possible
                 self.solopt(i + 1)  # Explore further by going to the next point
             self.défaire(i)  # Backtrack: undo the change and explore other possibilities
+
+    '''
+    Fonctions propres à la programmation dynamique.
+    '''
+    def calcSD_progDyn(self, start, end) -> float:
+        """Returns the calculated sum of the Euclidean distances between the taken points and the segments.
+
+        Returns:
+            float: calculated SD value.
+        """
+        return self.distance(start, end)
+    
+    # TODO : Correct this function that doesn't work
+    def solSearch_progDyn(self):
+        """
+        Dynamic programming method to find the optimal solution.
+        """
+        # Initialize the arrays
+        approx_opt = [float('inf')] * (self.n)
+        next = [None] * (self.n)
+        
+        approx_opt[self.n - 1] = 0 # Initial case : approx_opt(n, n) = 0
+        
+        # Dynamic filling
+        for i in range(len(approx_opt) - 2, 0, -1):
+            for j in range(i + 1, len(approx_opt)):
+                # Calculate the cost of the segment from i to j
+                cost = self.calcSD_progDyn(i, j) + self.C + approx_opt[j]
+                # Check if this is better than the current best
+                if approx_opt[i] > cost:
+                    approx_opt[i] = cost
+                    next[i] = j
+                    
+        # Backtracking to find the optimal solution
+        solution = [1]
+        i = 1
+        while next[i] is not None:
+            i = next[i]
+            solution.append(next[i])
+        print(solution)
+        # Now that we have our solution, we can update the optRes vector.
+        for node in range(1, len(solution) - 2) :
+            print(solution[node])
+            self.optRes[solution[node] - 1] = True
+        return solution

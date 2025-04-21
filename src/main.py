@@ -49,6 +49,15 @@ def launch_project():
     print_results(pb)
 
     Cli(pb.S, pb.optRes)
+    
+    # optResreset
+    for i in range(len(pb.res)):
+        pb.optRes[i] = False
+    
+    print("TESTING : Programation dynamique")
+    print(pb.solSearch_progDyn())
+    print_results(pb)
+    Cli(pb.S, pb.optRes)
 
 def main():
     parser = argparse.ArgumentParser(description="Projet Algo Avancée - CLI Tool")
