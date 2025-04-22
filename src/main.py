@@ -1,6 +1,7 @@
 import subprocess
 import os
 import argparse
+import time
 
 from abstract import Problem
 from cli import Cli
@@ -45,22 +46,30 @@ def launch_project_essais_successifs():
     pb = Problem(n)
     print("Liste des points générés :", pb.S)
     print("Vecteur de solution initial :", pb.res)
-    pb.solopt(0)
-    print_results(pb)
 
+    start_time = time.time()
+    pb.solopt(0)
+    duration = time.time() - start_time
+    print(f"⏱ Temps d'exécution (essais successifs) : {duration:.4f} secondes")
+
+    print_results(pb)
     Cli(pb.S, pb.optRes)
     
-    # optResreset
     for i in range(len(pb.res)):
         pb.optRes[i] = False
     
 def launch_project_programmation_dynamique():
     n = ask_for_number_of_points()
-    
+
     pb = Problem(n)
+    start_time = time.time()
     print(pb.solSearch_progDyn())
+    duration = time.time() - start_time
+    print(f"⏱ Temps d'exécution (programmation dynamique) : {duration:.4f} secondes")
+
     print_results(pb)
     Cli(pb.S, pb.optRes)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Projet Algo Avancée - CLI Tool")

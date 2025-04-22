@@ -25,14 +25,14 @@ class Problem:
         self.n = n
 
         self.min = 1
-        self.max = 5
+        self.max = 20
         self.S = [random.randint(self.min, self.max) for _ in range(self.n)]
         self.res = [False] * (n - 2)  # initial solution vector (excluding first and last point)
         self.optRes = self.res[:]
 
         self.SD = self.calcSD()
         self.m = 1
-        self.C = 1.5
+        self.C = 10
         self.score = self.calcScore()
         self.optScore = self.score
 
@@ -49,10 +49,10 @@ class Problem:
             float: sum of the distances.
         """
         sum = 0
-        A = [i, self.S[i]]
-        B = [j, self.S[j]]
+        A = [i, self.S[i-1]]
+        B = [j, self.S[j-1]]
         for k in range(i, j):
-            P = [k, self.S[k]]
+            P = [k, self.S[k-1]]
             H = orth_projection(P, A, B)
             sum += euclidian_distance(P, H)
         return sum
@@ -79,7 +79,7 @@ class Problem:
         """Returns the current score of the approximation.
         """
         score = self.SD + self.m * self.C
-        print(f"Score: {score}")  # Debugging output
+        # print(f"Score: {score}")  # Debugging output
         return score
 
     def satisfaisant(self, xi: int) -> bool:
@@ -110,7 +110,7 @@ class Problem:
             else:
                 self.m -= 1
             self.res[xi] = val
-            print(f"Updated res[{xi}] to {val}, m = {self.m}")  # Debugging output
+            # print(f"Updated res[{xi}] to {val}, m = {self.m}")  # Debugging output
 
     def soltrouvee(self, xi: int) -> bool:
         """This method returns True when we're done looking for a solution.
@@ -138,7 +138,7 @@ class Problem:
             xi (int): index of the point.
         """
         self.enregistrer(xi, False)
-        print(f"Undid res[{xi}], m = {self.m}")  # Debugging output
+        # print(f"Undid res[{xi}], m = {self.m}")  # Debugging output
 
     def solopt(self, i: int):
         """Backtracking method to find the optimal solution.
@@ -146,22 +146,22 @@ class Problem:
         Args:
             i (int): index of the current point being considered.
         """
-        print(f"Exploring index {i}, res = {self.res}")  # Debugging output
+        # print(f"Exploring index {i}, res = {self.res}")  # Debugging output
         
-        if self.soltrouvee(i):
-            # Évaluer la solution complète
-            self.SD = self.calcSD()
-            eval = self.calcScore()
-            print(f"Evaluation at end: {eval}, current best: {self.optScore}")  # Debugging output
-            if eval < self.optScore:
-                self.optScore = eval
-                self.optRes = self.res.copy()  # Store the best solution found so far
-                print(f"New optimal found: {self.optRes}")  # Debugging output
-            return
+        for xi in [True, False]:
+            if self.soltrouvee(i):
+                # Évaluer la solution complète
+                self.SD = self.calcSD()
+                eval_ = self.calcScore()
+                # print(f"Evaluation at end: {eval_}, current best: {self.optScore}")  # Debugging output
+                if eval_ < self.optScore:
+                    self.optScore = eval_
+                    self.optRes = self.res.copy()  # Store the best solution found so far
+                    # print(f"New optimal found: {self.optRes}")  # Debugging output
+                return
 
         # On explore les deux choix possibles pour le i-ième point: pris ou non pris
-        for xi in [True, False]:
-            print(f"Trying xi={xi} at index {i}")  # Debugging output
+            # print(f"Trying xi={xi} at index {i}")  # Debugging output
             self.enregistrer(i, xi)  # Update the solution with the new choice
             if self.optEncorePossible():  # Only continue if a better solution is possible
                 self.solopt(i + 1)  # Explore further by going to the next point
