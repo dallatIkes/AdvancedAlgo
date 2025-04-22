@@ -44,12 +44,12 @@ Lancement depuis le terminal avec différents arguments :
 
 ## 🗂 Structure du projet
 
-```
+```php
 .
 ├── src/
 │   ├── main.py            # Script principal
 │   ├── abstract.py        # Classe Problem avec les méthodes de résolution
 │   ├── cli.py             # Interface CLI pour visualiser les solutions
 │   └── geometry.py        # Outils géométriques (utilisé en interne)
-└── docs/                  # Documentation générée automatiquement
+└── docs/                  # Documentation générée automatiquement et compte rendu
 ```
