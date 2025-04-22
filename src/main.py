@@ -39,7 +39,7 @@ def print_results(pb: Problem) -> None:
     print("│ Score optimal :", pb.optScore)
     print('└─────────────────────────────────────────────────────────────────────────────────')
 
-def launch_project():
+def launch_project_essais_successifs():
     n = ask_for_number_of_points()
 
     pb = Problem(n)
@@ -54,7 +54,10 @@ def launch_project():
     for i in range(len(pb.res)):
         pb.optRes[i] = False
     
-    print("TESTING : Programation dynamique")
+def launch_project_programmation_dynamique():
+    n = ask_for_number_of_points()
+    
+    pb = Problem(n)
     print(pb.solSearch_progDyn())
     print_results(pb)
     Cli(pb.S, pb.optRes)
@@ -66,16 +69,23 @@ def main():
         help="Génère la documentation du projet (pdoc)"
     )
     parser.add_argument(
-        "--run", action="store_true",
-        help="Lance l'exécution principale du projet"
+        "--run_essais_successifs", action="store_true",
+        help="Lance l'exécution principale du projet au moyen de la méthode des essais successifs"
+    )
+    
+    parser.add_argument(
+        "--run_programmation_dynamique", action="store_true",
+        help="Lance l'exécution principale du projet au moyen de la méthode des essais successifs"
     )
 
     args = parser.parse_args()
 
     if args.docs:
         generate_docs()
-    elif args.run:
-        launch_project()
+    elif args.run_essais_successifs:
+        launch_project_essais_successifs()
+    elif args.run_programmation_dynamique:
+        launch_project_programmation_dynamique()
     else:
         parser.print_help()
 

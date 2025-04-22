@@ -193,7 +193,7 @@ class Problem:
         for i in range(len(approx_opt) - 2, 0, -1):
             for j in range(i + 1, len(approx_opt)):
                 # Calculate the cost of the segment from i to j
-                cost = self.calcSD_progDyn(i, j) + self.C + approx_opt[j]
+                cost = self.distance(i, j) + self.C + approx_opt[j]
                 # Check if this is better than the current best
                 if approx_opt[i] > cost:
                     approx_opt[i] = cost
@@ -210,4 +210,23 @@ class Problem:
         for node in range(1, len(solution) - 2) :
             print(solution[node])
             self.optRes[solution[node] - 1] = True
-        return solution
+        
+        # Update the optimal score
+        self.optScore = self.CalcOptScore_progDyn()
+    
+    def CalcOptScore_progDyn(self):
+        """Returns the current optimal score of the approximation.
+        """
+        self.m = 1 # Even if the vector is full of False, there is a least a segment between the first and last point.
+        taken = [0]
+        for i in range(len(self.optRes)):
+            if self.optRes[i]:
+                self.m += 1
+                taken.append(i + 1)
+        taken.append(self.n - 1)
+        
+        score = self.m * self.C
+        for i in range(len(taken) - 1):
+            score += self.distance(taken[i], taken[i + 1])
+        
+        return score
